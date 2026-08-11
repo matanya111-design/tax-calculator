@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>מחשבון מס הכנסה</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f0f2f5;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      padding: 40px;
+      width: 100%;
+      max-width: 560px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #1a237e;
+      margin-bottom: 8px;
+      font-size: 1.8rem;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 32px;
+      font-size: 0.9rem;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      outline: none;
+      transition: border-color 0.2s;
+      direction: ltr;
+      text-align: right;
+    }
+
+    input[type="number"]:focus {
+      border-color: #3f51b5;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background: #3f51b5;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background: #303f9f;
+    }
+
+    .results {
+      margin-top: 28px;
+      display: none;
+    }
+
+    .results.visible {
+      display: block;
+    }
+
+    .result-card {
+      background: #f5f7ff;
+      border: 1px solid #c5cae9;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .result-row:last-child {
+      border-bottom: none;
+    }
+
+    .result-label {
+      color: #555;
+      font-size: 0.95rem;
+    }
+
+    .result-value {
+      font-weight: 700;
+      color: #1a237e;
+      font-size: 1rem;
+    }
+
+    .result-value.highlight {
+      color: #c62828;
+      font-size: 1.15rem;
+    }
+
+    .result-value.green {
+      color: #2e7d32;
+      font-size: 1.15rem;
+    }
+
+    .brackets-title {
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 12px;
+      font-size: 1rem;
+    }
+
+    .bracket-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.88rem;
+      padding: 5px 0;
+      color: #555;
+      border-bottom: 1px dashed #e0e0e0;
+    }
+
+    .bracket-row:last-child {
+      border-bottom: none;
+    }
+
+    .bracket-row .bracket-tax {
+      color: #c62828;
+      font-weight: 600;
+    }
+
+    .note {
+      font-size: 0.78rem;
+      color: #999;
+      text-align: center;
+      margin-top: 16px;
+    }
+
+    .how-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      color: #666;
+      font-size: 0.88rem;
+      font-weight: 600;
+      margin-top: 24px;
+      user-select: none;
+      border-top: 1px solid #e8e8e8;
+      padding-top: 16px;
+    }
+
+    .how-toggle:hover { color: #3f51b5; }
+    .how-toggle .how-arrow { transition: transform 0.2s; }
+    .how-toggle.open .how-arrow { transform: rotate(90deg); }
+
+    .how-section {
+      display: none;
+      margin-top: 14px;
+      background: #f8f9fa;
+      border-radius: 10px;
+      padding: 20px;
+      font-size: 0.88rem;
+      color: #444;
+      line-height: 1.7;
+    }
+
+    .how-section.visible { display: block; }
+
+    .how-section h3 {
+      font-size: 0.92rem;
+      color: #1a237e;
+      margin-bottom: 8px;
+      margin-top: 14px;
+    }
+
+    .how-section h3:first-child { margin-top: 0; }
+
+    .how-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      font-size: 0.83rem;
+    }
+
+    .how-table th {
+      background: #e8eaf6;
+      color: #1a237e;
+      padding: 6px 10px;
+      text-align: right;
+      font-weight: 700;
+    }
+
+    .how-table td {
+      padding: 5px 10px;
+      border-bottom: 1px solid #e0e0e0;
+      text-align: right;
+    }
+
+    .how-table tr:last-child td { border-bottom: none; }
+
+    .how-formula {
+      background: #e8eaf6;
+      border-radius: 6px;
+      padding: 10px 14px;
+      font-family: monospace;
+      font-size: 0.85rem;
+      color: #1a237e;
+      margin-top: 8px;
+      direction: ltr;
+      text-align: left;
+    }
+
+    .how-step {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .how-step-num {
+      background: #3f51b5;
+      color: white;
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      min-width: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-top: 1px;
+    }
+
+    .advanced-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      color: #3f51b5;
+      font-size: 0.92rem;
+      font-weight: 600;
+      margin-top: 20px;
+      user-select: none;
+    }
+
+    .advanced-toggle:hover { color: #303f9f; }
+
+    .advanced-toggle .arrow {
+      transition: transform 0.2s;
+      font-style: normal;
+    }
+
+    .advanced-toggle.open .arrow { transform: rotate(90deg); }
+
+    .advanced-section {
+      display: none;
+      margin-top: 14px;
+      border: 1px dashed #c5cae9;
+      border-radius: 8px;
+      padding: 18px;
+      background: #f9f9ff;
+    }
+
+    .advanced-section.visible { display: block; }
+
+    .field-group {
+      margin-bottom: 14px;
+    }
+
+    .field-group label {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #444;
+      margin-bottom: 5px;
+    }
+
+    .field-group input {
+      padding: 9px 12px;
+      font-size: 0.95rem;
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .section-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 10px;
+      margin-top: 4px;
+    }
+
+    .divider { border: none; border-top: 1px solid #e0e0e0; margin: 14px 0; }
+
+    .result-row.sub {
+      padding: 5px 0;
+    }
+
+    .result-label.muted { color: #888; font-size: 0.88rem; }
+    .result-value.muted { color: #888; font-size: 0.88rem; font-weight: 600; }
+    .result-value.orange { color: #e65100; font-size: 1.15rem; }
+
+    /* כרטיס נטו גדול ובולט */
+    .net-hero {
+      background: linear-gradient(135deg, #1b5e20, #2e7d32);
+      color: white;
+      border-radius: 12px;
+      padding: 22px 20px;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .net-hero .label { font-size: 0.9rem; opacity: 0.85; margin-bottom: 4px; }
+    .net-hero .amount { font-size: 2.2rem; font-weight: 800; letter-spacing: -1px; }
+    .net-hero .sub { font-size: 0.8rem; opacity: 0.75; margin-top: 4px; }
+
+    /* טולטיפ */
+    .tip-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #c5cae9;
+      color: #1a237e;
+      font-size: 0.72rem;
+      font-weight: 800;
+      cursor: pointer;
+      margin-right: 4px;
+      border: none;
+      position: relative;
+      vertical-align: middle;
+    }
+
+    .tip-btn:hover .tip-text,
+    .tip-btn:focus .tip-text { display: block; }
+
+    .tip-text {
+      display: none;
+      position: absolute;
+      top: 24px;
+      right: -6px;
+      background: #333;
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 400;
+      padding: 8px 10px;
+      border-radius: 6px;
+      width: 200px;
+      z-index: 10;
+      line-height: 1.5;
+      white-space: normal;
+      text-align: right;
+    }
+
+    /* כפתורי יצוא */
+    .export-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .export-btn {
+      flex: 1;
+      padding: 10px;
+      border: 2px solid #3f51b5;
+      background: white;
+      color: #3f51b5;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 0;
+    }
+
+    .export-btn:hover { background: #3f51b5; color: white; }
+
+    @media print {
+      .advanced-toggle, .how-toggle, .how-section,
+      .export-row, button:not(.print-hide) { display: none !important; }
+      body { background: white; }
+      .container { box-shadow: none; padding: 10px; }
+      .results { display: block !important; }
+      .net-hero { background: #eee !important; color: #000 !important; -webkit-print-color-adjust: exact; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🧾 מחשבון מס הכנסה</h1>
+    <p class="subtitle">חישוב מס הכנסה חודשי לפי מדרגות המס בישראל (2026)</p>
+
+    <label for="salary">משכורת ברוטו חודשית (₪)
+      <span style="font-weight:400;color:#888;font-size:0.82rem"> — מופיעה בתלוש תחת "ברוטו" או "שכר יסוד + תוספות"</span>
+    </label>
+    <input type="number" id="salary" placeholder="לדוגמה: 15000" min="0" />
+
+    <!-- פרטים מתקדמים -->
+    <div class="advanced-toggle" id="adv-toggle" onclick="toggleAdvanced()">
+      <span class="arrow">▶</span>
+      <span>הוסף פרטים מהתלוש לחישוב מדויק יותר (אופציונלי)</span>
+    </div>
+    <div class="advanced-section" id="adv-section">
+
+      <div class="section-label">נקודות זיכוי</div>
+      <div class="field-group">
+        <label for="credit-points">מספר נקודות זיכוי
+          <span style="font-weight:400;color:#888;font-size:0.8rem"> — מופיע בתלוש תחת "נק' זיכוי" או "זיכוי מס". ברירת מחדל: 2.25</span>
+        </label>
+        <input type="number" id="credit-points" placeholder="2.25" min="0" step="0.25" />
+      </div>
+
+      <hr class="divider" />
+      <div class="section-label">הפרשות לפנסיה — מזכות בזיכוי מס 35% על חלק העובד</div>
+      <div class="field-row">
+        <div class="field-group">
+          <label for="pension-employee">ניכוי פנסיה — חלק עובד (₪/חודש)
+            <span style="font-weight:400;color:#888;font-size:0.78rem"> — בתלוש: "ניכוי פנסיה" / "קרן פנסיה עובד"</span>
+          </label>
+          <input type="number" id="pension-employee" placeholder="לדוגמה: 600" min="0" />
+        </div>
+        <div class="field-group">
+          <label for="pension-employer">הפרשת מעסיק לפנסיה (₪/חודש)
+            <span style="font-weight:400;color:#888;font-size:0.78rem"> — בתלוש: "פנסיה מעסיק" (לידע בלבד)</span>
+          </label>
+          <input type="number" id="pension-employer" placeholder="לדוגמה: 900" min="0" />
+        </div>
+      </div>
+
+      <hr class="divider" />
+      <div class="section-label">קרן השתלמות — הפרשת עובד פטורה ממס עד תקרה</div>
+      <div class="field-row">
+        <div class="field-group">
+          <label for="keren-employee">הפרשת עובד לקרן השתלמות (₪/חודש)
+            <span style="font-weight:400;color:#888;font-size:0.78rem"> — בתלוש: "קרן השתלמות עובד". פטורה ממס עד 2,532 ₪/חודש</span>
+          </label>
+          <input type="number" id="keren-employee" placeholder="לדוגמה: 380" min="0" />
+        </div>
+        <div class="field-group">
+          <label for="keren-employer">הפרשת מעסיק לקרן השתלמות (₪/חודש)
+            <span style="font-weight:400;color:#888;font-size:0.78rem"> — בתלוש: "קרן השתלמות מעסיק" (לידע בלבד)</span>
+          </label>
+          <input type="number" id="keren-employer" placeholder="לדוגמה: 760" min="0" />
+        </div>
+      </div>
+
+      <hr class="divider" />
+      <div class="section-label">תרומות (סעיף 46) — זיכוי מס 35%</div>
+      <div class="field-group">
+        <label for="donation">סכום תרומות שנתי (₪)
+          <span style="font-weight:400;color:#888;font-size:0.78rem"> — על תרומות מעל 190 ₪ לשנה לגופים מוכרים. הזיכוי יחולק ל-12 חודשים</span>
+        </label>
+        <input type="number" id="donation" placeholder="לדוגמה: 1200" min="0" />
+      </div>
+
+      <hr class="divider" />
+      <div class="section-label">ביטוח לאומי ומס בריאות (2026)</div>
+      <p style="font-size:0.82rem;color:#888;margin-bottom:10px">מופיעים בתלוש תחת <strong>"ניכויים"</strong> — שורות <strong>"ביטוח לאומי"</strong> ו<strong>"מס בריאות"</strong>. המחשבון יחשב אוטומטית לפי שיעורי 2026.</p>
+      <div class="field-row">
+        <div class="field-group">
+          <label for="include-bituach">כלול בחישוב הנטו הסופי?</label>
+          <select id="include-bituach" style="width:100%;padding:9px 12px;border:2px solid #ddd;border-radius:8px;font-size:0.95rem;outline:none;">
+            <option value="yes">כן — הצג נטו אמיתי</option>
+            <option value="no">לא — מס הכנסה בלבד</option>
+          </select>
+        </div>
+      </div>
+
+    </div>
+
+    <button onclick="calculate()">חשב מס</button>
+
+    <div class="results" id="results">
+
+      <!-- כרטיס נטו בולט -->
+      <div class="net-hero" id="hero-card">
+        <div class="label">💰 שכר נטו לקבלה (מס הכנסה בלבד)</div>
+        <div class="amount" id="hero-amount"></div>
+        <div class="sub" id="hero-sub"></div>
+      </div>
+
+      <div class="result-card">
+        <div class="result-row">
+          <span class="result-label">משכורת ברוטו</span>
+          <span class="result-value" id="res-gross"></span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">
+            <button class="tip-btn" tabindex="0">?<span class="tip-text">כל נקודת זיכוי שווה 242 ₪ הנחה במס. תושב ישראל מקבל 2.25 נקודות אוטומטית.</span></button>
+            נקודות זיכוי (ערך חודשי)
+          </span>
+          <span class="result-value" id="res-credit"></span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">מס הכנסה לפי מדרגות</span>
+          <span class="result-value highlight" id="res-tax"></span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">מס לאחר כל הזיכויים</span>
+          <span class="result-value highlight" id="res-tax-after-credit"></span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">
+            <button class="tip-btn" tabindex="0">?<span class="tip-text">אחוז המס שאתה משלם בפועל מתוך כל השכר — לא שיעור המדרגה הגבוהה.</span></button>
+            אחוז מס אפקטיבי
+          </span>
+          <span class="result-value" id="res-effective"></span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">שכר נטו (אחרי מס הכנסה)</span>
+          <span class="result-value green" id="res-net"></span>
+        </div>
+      </div>
+
+      <!-- כרטיס ניכויים נוספים -->
+      <div class="result-card" id="card-extras" style="display:none">
+        <div class="brackets-title">פירוט זיכויים וניכויים</div>
+        <div class="result-row sub" id="row-pension" style="display:none">
+          <span class="result-label muted">זיכוי מס — פנסיה עובד (35%)</span>
+          <span class="result-value muted" id="res-pension-credit"></span>
+        </div>
+        <div class="result-row sub" id="row-keren" style="display:none">
+          <span class="result-label muted">
+            <button class="tip-btn" tabindex="0">?<span class="tip-text">הפרשת העובד לקרן השתלמות מופחתת מהכנסה החייבת עד תקרה של 2,532 ₪/חודש.</span></button>
+            הפחתת הכנסה — קרן השתלמות עובד
+          </span>
+          <span class="result-value muted" id="res-keren-credit"></span>
+        </div>
+        <div class="result-row sub" id="row-donation" style="display:none">
+          <span class="result-label muted">זיכוי מס — תרומות (35%)</span>
+          <span class="result-value muted" id="res-donation-credit"></span>
+        </div>
+        <div class="result-row sub" id="row-bituach" style="display:none">
+          <span class="result-label muted">ביטוח לאומי (חלק עובד)</span>
+          <span class="result-value muted" id="res-bituach"></span>
+        </div>
+        <div class="result-row sub" id="row-health" style="display:none">
+          <span class="result-label muted">מס בריאות (חלק עובד)</span>
+          <span class="result-value muted" id="res-health"></span>
+        </div>
+        <div class="result-row" id="row-net-full" style="display:none">
+          <span class="result-label" style="font-weight:700">נטו סופי (אחרי כל הניכויים)</span>
+          <span class="result-value green" style="font-size:1.2rem" id="res-net-full"></span>
+        </div>
+      </div>
+
+      <div class="result-card">
+        <div class="brackets-title">פירוט מדרגות המס</div>
+        <div id="brackets-detail"></div>
+      </div>
+
+      <div class="export-row">
+        <button class="export-btn" onclick="exportPDF()">🖨️ הדפסה / שמור PDF</button>
+        <button class="export-btn" onclick="exportCSV()">📊 הורד לאקסל (CSV)</button>
+      </div>
+
+      <p class="note" id="res-note">
+        * חישוב זה מבוסס על 2.25 נקודות זיכוי (תושב ישראל + עובד שכיר).<br />
+        * מדרגת 50% חלה על הכנסה מעל 60,130 ₪ לחודש (כולל 3% מס נוסף).<br />
+        * לא כולל ביטוח לאומי ומס בריאות. לייעוץ מדויק פנה לרואה חשבון.
+      </p>
+    </div>
+
+    <!-- איך זה מחושב -->
+    <div class="how-toggle" id="how-toggle" onclick="toggleHow()">
+      <span class="how-arrow">▶</span>
+      <span>איך המחשבון עובד?</span>
+    </div>
+    <div class="how-section" id="how-section">
+
+      <h3>שלבי החישוב</h3>
+      <div class="how-step">
+        <div class="how-step-num">1</div>
+        <div><strong>הפחתת קרן השתלמות (אם הוזנה):</strong> הפרשת העובד לקרן השתלמות מופחתת מההכנסה החייבת במס — עד תקרה של 2,532 ₪ לחודש. המס מחושב על השכר לאחר ההפחתה.</div>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">2</div>
+        <div><strong>חישוב מס גולמי לפי מדרגות:</strong> ההכנסה (לאחר הפחתת קרן השתלמות) מחולקת לשכבות. כל שכבה ממוסה בשיעור שלה בלבד — לא על כל ההכנסה.</div>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">3</div>
+        <div><strong>הפחתת זיכויים מהמס:</strong> מסכום המס מופחתים:
+          <ul style="margin-top:5px;margin-right:16px;font-size:0.87rem">
+            <li><strong>נקודות זיכוי</strong> — כל נקודה שווה 242 ₪ לחודש (2026)</li>
+            <li><strong>זיכוי פנסיה</strong> — 35% מהפרשת העובד (אם הוזנה)</li>
+            <li><strong>זיכוי תרומות</strong> — 35% מסכום התרומות השנתי, מחולק ל-12 (אם הוזן)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">4</div>
+        <div><strong>ביטוח לאומי ומס בריאות (אם נבחר):</strong> מחושב לפי שיעורי 2026 על חלק העובד בלבד, ומופחת מהנטו הסופי.</div>
+      </div>
+
+      <h3>מדרגות המס 2026 (חודשי)</h3>
+      <table class="how-table">
+        <thead>
+          <tr>
+            <th>הכנסה חודשית</th>
+            <th>שיעור מס</th>
+            <th>מס מקסימלי במדרגה</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>₪0 – ₪7,010</td><td>10%</td><td>₪701</td></tr>
+          <tr><td>₪7,011 – ₪10,060</td><td>14%</td><td>₪427</td></tr>
+          <tr><td>₪10,061 – ₪19,000</td><td>20%</td><td>₪1,788</td></tr>
+          <tr><td>₪19,001 – ₪25,100</td><td>31%</td><td>₪1,891</td></tr>
+          <tr><td>₪25,101 – ₪46,690</td><td>35%</td><td>₪7,556</td></tr>
+          <tr><td>₪46,691 – ₪60,130</td><td>47%</td><td>₪6,317</td></tr>
+          <tr><td>₪60,131 ומעלה</td><td>50%</td><td>—</td></tr>
+        </tbody>
+      </table>
+
+      <h3>דוגמה — משכורת 15,000 ₪</h3>
+      <div class="how-formula">
+  7,010 × 10% =   701 ₪
+  3,050 × 14% =   427 ₪  (7,011–10,060)
+  4,940 × 20% =   988 ₪  (10,061–15,000)
+  ─────────────────────
+  סה"כ מס גולמי = 2,116 ₪
+  פחות נקודות זיכוי (2.25 × 242) = 544 ₪
+  ─────────────────────
+  מס לתשלום ≈ 1,572 ₪
+      </div>
+
+      <h3>ביטוח לאומי ומס בריאות 2026 (חלק עובד)</h3>
+      <table class="how-table">
+        <thead>
+          <tr><th>הכנסה</th><th>ביטוח לאומי</th><th>מס בריאות</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>עד ₪7,522</td><td>0.4%</td><td>3.1%</td></tr>
+          <tr><td>₪7,523 – ₪47,465</td><td>7%</td><td>5%</td></tr>
+          <tr><td>מעל ₪47,465</td><td>0%</td><td>0%</td></tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+  <script>
+    // מדרגות מס הכנסה חודשיות לשנת 2026 (שנתיות חלקי 12)
+    // מדרגות שנתיות: 0-84120 → 10%, 84120-120720 → 14%, 120720-228000 → 20%,
+    //                228000-301200 → 31%, 301200-560280 → 35%, 560280-721560 → 47%, מעל 721560 → 50%
+    const BRACKETS = [
+      { upTo: 7010,   rate: 0.10 },
+      { upTo: 10060,  rate: 0.14 },
+      { upTo: 19000,  rate: 0.20 },
+      { upTo: 25100,  rate: 0.31 },
+      { upTo: 46690,  rate: 0.35 },
+      { upTo: 60130,  rate: 0.47 },
+      { upTo: Infinity, rate: 0.50 },
+    ];
+
+    // ערך נקודת זיכוי חודשית 2026
+    const CREDIT_POINT_VALUE = 242; // ₪ לחודש
+    const DEFAULT_CREDIT_POINTS = 2.25; // תושב + שכיר
+
+    // ביטוח לאומי ומס בריאות 2026 (חלק עובד)
+    // בט"ל: 0.4% עד 7,522 ₪, 7% מ-7,522 עד 47,465 ₪
+    // מס בריאות: 3.1% עד 7,522 ₪, 5% מ-7,522 עד 47,465 ₪
+    const BIT_LOW_RATE    = 0.004;
+    const BIT_HIGH_RATE   = 0.07;
+    const HEALTH_LOW_RATE = 0.031;
+    const HEALTH_HIGH_RATE= 0.05;
+    const BIT_LOW_CEIL    = 7522;
+    const BIT_HIGH_CEIL   = 47465;
+
+    function formatMoney(n) {
+      return '₪' + Math.round(n).toLocaleString('he-IL');
+    }
+
+    function toggleAdvanced() {
+      const toggle = document.getElementById('adv-toggle');
+      const section = document.getElementById('adv-section');
+      toggle.classList.toggle('open');
+      section.classList.toggle('visible');
+    }
+
+    function toggleHow() {
+      const toggle = document.getElementById('how-toggle');
+      const section = document.getElementById('how-section');
+      toggle.classList.toggle('open');
+      section.classList.toggle('visible');
+    }
+
+    function calcBituach(salary) {
+      const s = Math.min(salary, BIT_HIGH_CEIL);
+      const low  = Math.min(s, BIT_LOW_CEIL);
+      const high = Math.max(0, s - BIT_LOW_CEIL);
+      const bituach = low * BIT_LOW_RATE + high * BIT_HIGH_RATE;
+      const health  = low * HEALTH_LOW_RATE + high * HEALTH_HIGH_RATE;
+      return { bituach, health };
+    }
+
+    function calculateTax(salary) {
+      let tax = 0;
+      let prev = 0;
+      const details = [];
+
+      for (const bracket of BRACKETS) {
+        if (salary <= prev) break;
+        const taxable = Math.min(salary, bracket.upTo) - prev;
+        const bracketTax = taxable * bracket.rate;
+        tax += bracketTax;
+        details.push({
+          from: prev,
+          to: Math.min(salary, bracket.upTo),
+          rate: bracket.rate,
+          taxable,
+          tax: bracketTax,
+        });
+        prev = bracket.upTo;
+      }
+
+      return { tax, details };
+    }
+
+    function calculate() {
+      const salary = parseFloat(document.getElementById('salary').value);
+      if (!salary || salary <= 0) {
+        alert('נא להזין משכורת חיובית');
+        return;
+      }
+
+      // נקודות זיכוי
+      const cpInput = parseFloat(document.getElementById('credit-points').value);
+      const creditPoints = (!isNaN(cpInput) && cpInput >= 0) ? cpInput : DEFAULT_CREDIT_POINTS;
+      const creditValue = creditPoints * CREDIT_POINT_VALUE;
+
+      // פנסיה — זיכוי מס 35% על הפרשת עובד
+      const pensionEmployee = parseFloat(document.getElementById('pension-employee').value) || 0;
+      const pensionCredit   = pensionEmployee * 0.35;
+
+      // קרן השתלמות — הפחתת הכנסה חייבת עד תקרה 2,532 ₪/חודש
+      const KEREN_CAP = 2532;
+      const kerenEmployee = parseFloat(document.getElementById('keren-employee').value) || 0;
+      const kerenDeductible = Math.min(kerenEmployee, KEREN_CAP);
+
+      // תרומות — זיכוי מס 35% (מינימום 190 ₪ שנתי), מחולק ל-12
+      const donationAnnual = parseFloat(document.getElementById('donation').value) || 0;
+      const donationCredit = donationAnnual >= 190 ? (donationAnnual * 0.35) / 12 : 0;
+
+      // חישוב מס על הכנסה מופחתת (אחרי קרן השתלמות)
+      const taxableSalary = Math.max(0, salary - kerenDeductible);
+      const { tax, details } = calculateTax(taxableSalary);
+      const taxAfterCredit = Math.max(0, tax - creditValue - pensionCredit - donationCredit);
+      const effectiveRate  = (taxAfterCredit / salary * 100).toFixed(1);
+      const netAfterIncomeTax = salary - taxAfterCredit;
+
+      document.getElementById('res-gross').textContent            = formatMoney(salary);
+      document.getElementById('res-credit').textContent           = formatMoney(creditValue) + ` (${creditPoints} נק')`;
+      document.getElementById('res-tax').textContent              = formatMoney(tax);
+      document.getElementById('res-tax-after-credit').textContent = formatMoney(taxAfterCredit);
+      document.getElementById('res-effective').textContent        = effectiveRate + '%';
+      document.getElementById('res-net').textContent              = formatMoney(netAfterIncomeTax);
+
+      // hero card
+      document.getElementById('hero-amount').textContent = formatMoney(netAfterIncomeTax);
+
+      // פירוט מדרגות
+      let html = '';
+      for (const d of details) {
+        if (d.taxable <= 0) continue;
+        html += `
+          <div class="bracket-row">
+            <span>${formatMoney(d.from)} – ${d.to === Infinity ? 'ומעלה' : formatMoney(d.to)}</span>
+            <span>${(d.rate * 100).toFixed(0)}% × ${formatMoney(d.taxable)}</span>
+            <span class="bracket-tax">${formatMoney(d.tax)}</span>
+          </div>`;
+      }
+      document.getElementById('brackets-detail').innerHTML = html;
+
+      // ניכויים נוספים
+      const includeBituach = document.getElementById('include-bituach').value === 'yes';
+      const hasPension   = pensionEmployee > 0;
+      const hasKeren     = kerenEmployee > 0;
+      const hasDonation  = donationCredit > 0;
+      const { bituach, health } = calcBituach(salary);
+      const cardExtras = document.getElementById('card-extras');
+
+      const showExtras = hasPension || hasKeren || hasDonation || includeBituach;
+      cardExtras.style.display = showExtras ? 'block' : 'none';
+
+      if (showExtras) {
+        // פנסיה
+        document.getElementById('row-pension').style.display = hasPension ? 'flex' : 'none';
+        if (hasPension) document.getElementById('res-pension-credit').textContent = '−' + formatMoney(pensionCredit);
+
+        // קרן השתלמות
+        document.getElementById('row-keren').style.display = hasKeren ? 'flex' : 'none';
+        if (hasKeren) document.getElementById('res-keren-credit').textContent =
+          '−' + formatMoney(kerenDeductible) + ' מהכנסה החייבת';
+
+        // תרומות
+        document.getElementById('row-donation').style.display = hasDonation ? 'flex' : 'none';
+        if (hasDonation) document.getElementById('res-donation-credit').textContent = '−' + formatMoney(donationCredit);
+
+        // בטל
+        if (includeBituach) {
+          document.getElementById('row-bituach').style.display  = 'flex';
+          document.getElementById('row-health').style.display   = 'flex';
+          document.getElementById('row-net-full').style.display = 'flex';
+          document.getElementById('res-bituach').textContent    = formatMoney(bituach);
+          document.getElementById('res-health').textContent     = formatMoney(health);
+          const netFull = netAfterIncomeTax - bituach - health;
+          document.getElementById('res-net-full').textContent   = formatMoney(netFull);
+          // עדכן hero
+          document.getElementById('hero-card').querySelector('.label').textContent = '💰 שכר נטו לקבלה (כולל כל הניכויים)';
+          document.getElementById('hero-amount').textContent = formatMoney(netFull);
+          document.getElementById('hero-sub').textContent = `מס הכנסה: ${formatMoney(taxAfterCredit)} | בט"ל: ${formatMoney(bituach)} | בריאות: ${formatMoney(health)}`;
+        } else {
+          document.getElementById('row-bituach').style.display  = 'none';
+          document.getElementById('row-health').style.display   = 'none';
+          document.getElementById('row-net-full').style.display = 'none';
+          document.getElementById('hero-card').querySelector('.label').textContent = '💰 שכר נטו לקבלה (מס הכנסה בלבד)';
+          document.getElementById('hero-sub').textContent = `מס הכנסה: ${formatMoney(taxAfterCredit)} | אחוז מס אפקטיבי: ${effectiveRate}%`;
+        }
+      } else {
+        document.getElementById('hero-card').querySelector('.label').textContent = '💰 שכר נטו לקבלה (מס הכנסה בלבד)';
+        document.getElementById('hero-sub').textContent = `מס הכנסה: ${formatMoney(taxAfterCredit)} | אחוז מס אפקטיבי: ${effectiveRate}%`;
+      }
+
+      // שמור נתונים לצורך ייצוא
+      window._lastCalc = { salary, taxAfterCredit, netAfterIncomeTax, bituach, health,
+        pensionCredit, kerenDeductible, donationCredit, creditValue, creditPoints,
+        includeBituach, effectiveRate };
+
+      // הערת שוליים
+      let noteText = `* חישוב זה מבוסס על ${creditPoints} נקודות זיכוי.<br />`;
+      noteText += '* מדרגת 50% חלה על הכנסה מעל 60,130 ₪ לחודש (כולל 3% מס נוסף).<br />';
+      if (!includeBituach) noteText += '* לא כולל ביטוח לאומי ומס בריאות.<br />';
+      noteText += '* לייעוץ מדויק פנה לרואה חשבון.';
+      document.getElementById('res-note').innerHTML = noteText;
+
+      document.getElementById('results').classList.add('visible');
+    }
+
+    function exportPDF() {
+      window.print();
+    }
+
+    function exportCSV() {
+      const c = window._lastCalc;
+      if (!c) return;
+      const rows = [
+        ['שדה', 'ערך (₪)'],
+        ['משכורת ברוטו', c.salary],
+        ['נקודות זיכוי (ערך)', Math.round(c.creditValue)],
+        ['מס הכנסה גולמי', Math.round(c.salary - c.netAfterIncomeTax + c.taxAfterCredit - c.taxAfterCredit + (c.salary - c.netAfterIncomeTax))],
+        ['זיכוי פנסיה', Math.round(c.pensionCredit)],
+        ['הפחתת קרן השתלמות', Math.round(c.kerenDeductible)],
+        ['זיכוי תרומות', Math.round(c.donationCredit)],
+        ['מס הכנסה לתשלום', Math.round(c.taxAfterCredit)],
+        ['אחוז מס אפקטיבי', c.effectiveRate + '%'],
+        ['נטו (אחרי מס הכנסה)', Math.round(c.netAfterIncomeTax)],
+      ];
+      if (c.includeBituach) {
+        rows.push(['ביטוח לאומי', Math.round(c.bituach)]);
+        rows.push(['מס בריאות', Math.round(c.health)]);
+        rows.push(['נטו סופי', Math.round(c.netAfterIncomeTax - c.bituach - c.health)]);
+      }
+      rows.push(['', '']);
+      rows.push(['נתונים לפי', 'מדרגות מס ישראל 2026']);
+
+      const bom = '\uFEFF';
+      const csv = bom + rows.map(r => r.map(v => `"${v}"`).join(',')).join('\r\n');
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      a.href     = url;
+      a.download = 'חישוב_מס_הכנסה.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    // חישוב בלחיצת Enter
+    document.getElementById('salary').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') calculate();
+    });
+  </script>
+</body>
+</html>
