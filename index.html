@@ -447,11 +447,22 @@
       <div class="section-label">הפרשות לפנסיה — מזכות בזיכוי מס 35% על חלק העובד</div>
       <div class="field-row">
         <div class="field-group">
-          <label for="pension-employee">ניכוי פנסיה — חלק עובד (₪/חודש)
-            <span style="font-weight:400;color:#888;font-size:0.78rem"> — בתלוש: "ניכוי פנסיה" / "קרן פנסיה עובד"</span>
+          <label for="pension-employee-pct">אחוז הפרשת עובד לפנסיה (%)
+            <span style="font-weight:400;color:#888;font-size:0.78rem"> — בתלוש: % ניכוי פנסיה (בד"כ 6%)</span>
           </label>
-          <input type="number" id="pension-employee" placeholder="לדוגמה: 600" min="0" />
+          <div style="display:flex;gap:6px;align-items:center">
+            <input type="number" id="pension-employee-pct" placeholder="לדוגמה: 6" min="0" max="100" step="0.5" oninput="syncPensionFromPct()" style="flex:1" />
+            <span style="color:#888;font-size:0.85rem;white-space:nowrap">% = <span id="pension-employee-calc">—</span> ₪</span>
+          </div>
         </div>
+        <div class="field-group">
+          <label for="pension-employee">או הזן סכום ידני (₪/חודש)
+            <span style="font-weight:400;color:#888;font-size:0.78rem"> — עדיפות על האחוז אם מוזן</span>
+          </label>
+          <input type="number" id="pension-employee" placeholder="לדוגמה: 600" min="0" oninput="syncPensionFromAmount()" />
+        </div>
+      </div>
+      <div class="field-row" style="margin-top:-6px">
         <div class="field-group">
           <label for="pension-employer">הפרשת מעסיק לפנסיה (₪/חודש)
             <span style="font-weight:400;color:#888;font-size:0.78rem"> — בתלוש: "פנסיה מעסיק" (לידע בלבד)</span>
@@ -735,7 +746,11 @@
       const creditPoints = (!isNaN(cpInput) && cpInput >= 0) ? cpInput : DEFAULT_CREDIT_POINTS;
       const creditValue  = creditPoints * CREDIT_POINT_VALUE;
 
-      const pensionEmployee = parseFloat(document.getElementById('pension-employee').value) || 0;
+      const pensionAmountManual = parseFloat(document.getElementById('pension-employee').value);
+      const pensionPct           = parseFloat(document.getElementById('pension-employee-pct').value);
+      const pensionEmployee      = !isNaN(pensionAmountManual) && pensionAmountManual > 0
+        ? pensionAmountManual
+        : (!isNaN(pensionPct) && pensionPct > 0 ? salary * pensionPct / 100 : 0);
       const pensionCredit   = pensionEmployee * 0.35;
 
       const kerenEmployee   = parseFloat(document.getElementById('keren-employee').value) || 0;
@@ -852,6 +867,30 @@
       a.click();
       URL.revokeObjectURL(url);
     }
+
+    function syncPensionFromPct() {
+      const salary = parseFloat(document.getElementById('salary').value) || 0;
+      const pct    = parseFloat(document.getElementById('pension-employee-pct').value);
+      document.getElementById('pension-employee').value = '';
+      document.getElementById('pension-employee-calc').textContent =
+        (!isNaN(pct) && pct > 0 && salary > 0) ? Math.round(salary * pct / 100) : '\u2014';
+    }
+
+    function syncPensionFromAmount() {
+      const amount = parseFloat(document.getElementById('pension-employee').value);
+      const salary = parseFloat(document.getElementById('salary').value) || 0;
+      if (!isNaN(amount) && amount > 0) {
+        document.getElementById('pension-employee-pct').value = '';
+        document.getElementById('pension-employee-calc').textContent =
+          salary > 0 ? '(' + (amount / salary * 100).toFixed(1) + '%)' : '\u2014';
+      } else {
+        document.getElementById('pension-employee-calc').textContent = '\u2014';
+      }
+    }
+
+    document.getElementById('salary').addEventListener('input', function() {
+      syncPensionFromPct();
+    });
 
     document.getElementById('salary').addEventListener('keydown', function(e) {
       if (e.key === 'Enter') calculate();
