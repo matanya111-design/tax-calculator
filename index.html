@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>×ž×—×©×‘×•×Ÿ ×ž×¡ ×”×›× ×¡×”</title>
+  <title>מחשבון מס הכנסה</title>
   <style>
     * {
       box-sizing: border-box;
@@ -329,15 +329,12 @@
 
     .divider { border: none; border-top: 1px solid #e0e0e0; margin: 14px 0; }
 
-    .result-row.sub {
-      padding: 5px 0;
-    }
+    .result-row.sub { padding: 5px 0; }
 
     .result-label.muted { color: #888; font-size: 0.88rem; }
     .result-value.muted { color: #888; font-size: 0.88rem; font-weight: 600; }
     .result-value.orange { color: #e65100; font-size: 1.15rem; }
 
-    /* ×›×¨×˜×™×¡ × ×˜×• ×’×“×•×œ ×•×‘×•×œ×˜ */
     .net-hero {
       background: linear-gradient(135deg, #1b5e20, #2e7d32);
       color: white;
@@ -347,11 +344,10 @@
       margin-bottom: 16px;
     }
 
-    .net-hero .label { font-size: 0.9rem; opacity: 0.85; margin-bottom: 4px; }
+    .net-hero .label  { font-size: 0.9rem; opacity: 0.85; margin-bottom: 4px; }
     .net-hero .amount { font-size: 2.2rem; font-weight: 800; letter-spacing: -1px; }
-    .net-hero .sub { font-size: 0.8rem; opacity: 0.75; margin-top: 4px; }
+    .net-hero .sub    { font-size: 0.8rem; opacity: 0.75; margin-top: 4px; }
 
-    /* ×˜×•×œ×˜×™×¤ */
     .tip-btn {
       display: inline-flex;
       align-items: center;
@@ -391,7 +387,6 @@
       text-align: right;
     }
 
-    /* ×›×¤×ª×•×¨×™ ×™×¦×•× */
     .export-row {
       display: flex;
       gap: 10px;
@@ -426,252 +421,248 @@
 </head>
 <body>
   <div class="container">
-    <h1>ðŸ§¾ ×ž×—×©×‘×•×Ÿ ×ž×¡ ×”×›× ×¡×”</h1>
-    <p class="subtitle">×—×™×©×•×‘ ×ž×¡ ×”×›× ×¡×” ×—×•×“×©×™ ×œ×¤×™ ×ž×“×¨×’×•×ª ×”×ž×¡ ×‘×™×©×¨××œ (2026)</p>
+    <h1>🧾 מחשבון מס הכנסה</h1>
+    <p class="subtitle">חישוב מס הכנסה חודשי לפי מדרגות המס בישראל (2026)</p>
 
-    <label for="salary">×ž×©×›×•×¨×ª ×‘×¨×•×˜×• ×—×•×“×©×™×ª (â‚ª)
-      <span style="font-weight:400;color:#888;font-size:0.82rem"> â€” ×ž×•×¤×™×¢×” ×‘×ª×œ×•×© ×ª×—×ª "×‘×¨×•×˜×•" ××• "×©×›×¨ ×™×¡×•×“ + ×ª×•×¡×¤×•×ª"</span>
+    <label for="salary">משכורת ברוטו חודשית (₪)
+      <span style="font-weight:400;color:#888;font-size:0.82rem"> — מופיעה בתלוש תחת "ברוטו" או "שכר יסוד + תוספות"</span>
     </label>
-    <input type="number" id="salary" placeholder="×œ×“×•×’×ž×”: 15000" min="0" />
+    <input type="number" id="salary" placeholder="לדוגמה: 15000" min="0" />
 
-    <!-- ×¤×¨×˜×™× ×ž×ª×§×“×ž×™× -->
     <div class="advanced-toggle" id="adv-toggle" onclick="toggleAdvanced()">
-      <span class="arrow">â–¶</span>
-      <span>×”×•×¡×£ ×¤×¨×˜×™× ×ž×”×ª×œ×•×© ×œ×—×™×©×•×‘ ×ž×“×•×™×§ ×™×•×ª×¨ (××•×¤×¦×™×•× ×œ×™)</span>
+      <span class="arrow">&#9658;</span>
+      <span>הוסף פרטים מהתלוש לחישוב מדויק יותר (אופציונלי)</span>
     </div>
     <div class="advanced-section" id="adv-section">
 
-      <div class="section-label">× ×§×•×“×•×ª ×–×™×›×•×™</div>
+      <div class="section-label">נקודות זיכוי</div>
       <div class="field-group">
-        <label for="credit-points">×ž×¡×¤×¨ × ×§×•×“×•×ª ×–×™×›×•×™
-          <span style="font-weight:400;color:#888;font-size:0.8rem"> â€” ×ž×•×¤×™×¢ ×‘×ª×œ×•×© ×ª×—×ª "× ×§' ×–×™×›×•×™" ××• "×–×™×›×•×™ ×ž×¡". ×‘×¨×™×¨×ª ×ž×—×“×œ: 2.25</span>
+        <label for="credit-points">מספר נקודות זיכוי
+          <span style="font-weight:400;color:#888;font-size:0.8rem"> — מופיע בתלוש תחת "נק' זיכוי" או "זיכוי מס". ברירת מחדל: 2.25</span>
         </label>
         <input type="number" id="credit-points" placeholder="2.25" min="0" step="0.25" />
       </div>
 
       <hr class="divider" />
-      <div class="section-label">×”×¤×¨×©×•×ª ×œ×¤× ×¡×™×” â€” ×ž×–×›×•×ª ×‘×–×™×›×•×™ ×ž×¡ 35% ×¢×œ ×—×œ×§ ×”×¢×•×‘×“</div>
+      <div class="section-label">הפרשות לפנסיה — מזכות בזיכוי מס 35% על חלק העובד</div>
       <div class="field-row">
         <div class="field-group">
-          <label for="pension-employee">× ×™×›×•×™ ×¤× ×¡×™×” â€” ×—×œ×§ ×¢×•×‘×“ (â‚ª/×—×•×“×©)
-            <span style="font-weight:400;color:#888;font-size:0.78rem"> â€” ×‘×ª×œ×•×©: "× ×™×›×•×™ ×¤× ×¡×™×”" / "×§×¨×Ÿ ×¤× ×¡×™×” ×¢×•×‘×“"</span>
+          <label for="pension-employee">ניכוי פנסיה — חלק עובד (₪/חודש)
+            <span style="font-weight:400;color:#888;font-size:0.78rem"> — בתלוש: "ניכוי פנסיה" / "קרן פנסיה עובד"</span>
           </label>
-          <input type="number" id="pension-employee" placeholder="×œ×“×•×’×ž×”: 600" min="0" />
+          <input type="number" id="pension-employee" placeholder="לדוגמה: 600" min="0" />
         </div>
         <div class="field-group">
-          <label for="pension-employer">×”×¤×¨×©×ª ×ž×¢×¡×™×§ ×œ×¤× ×¡×™×” (â‚ª/×—×•×“×©)
-            <span style="font-weight:400;color:#888;font-size:0.78rem"> â€” ×‘×ª×œ×•×©: "×¤× ×¡×™×” ×ž×¢×¡×™×§" (×œ×™×“×¢ ×‘×œ×‘×“)</span>
+          <label for="pension-employer">הפרשת מעסיק לפנסיה (₪/חודש)
+            <span style="font-weight:400;color:#888;font-size:0.78rem"> — בתלוש: "פנסיה מעסיק" (לידע בלבד)</span>
           </label>
-          <input type="number" id="pension-employer" placeholder="×œ×“×•×’×ž×”: 900" min="0" />
+          <input type="number" id="pension-employer" placeholder="לדוגמה: 900" min="0" />
         </div>
       </div>
 
       <hr class="divider" />
-      <div class="section-label">×§×¨×Ÿ ×”×©×ª×œ×ž×•×ª â€” ×”×¤×¨×©×ª ×¢×•×‘×“ ×¤×˜×•×¨×” ×ž×ž×¡ ×¢×“ ×ª×§×¨×”</div>
+      <div class="section-label">קרן השתלמות — הפרשת עובד פטורה ממס עד תקרה</div>
       <div class="field-row">
         <div class="field-group">
-          <label for="keren-employee">×”×¤×¨×©×ª ×¢×•×‘×“ ×œ×§×¨×Ÿ ×”×©×ª×œ×ž×•×ª (â‚ª/×—×•×“×©)
-            <span style="font-weight:400;color:#888;font-size:0.78rem"> â€” ×‘×ª×œ×•×©: "×§×¨×Ÿ ×”×©×ª×œ×ž×•×ª ×¢×•×‘×“". ×¤×˜×•×¨×” ×ž×ž×¡ ×¢×“ 2,532 â‚ª/×—×•×“×©</span>
+          <label for="keren-employee">הפרשת עובד לקרן השתלמות (₪/חודש)
+            <span style="font-weight:400;color:#888;font-size:0.78rem"> — בתלוש: "קרן השתלמות עובד". פטורה ממס עד 2,532 ₪/חודש</span>
           </label>
-          <input type="number" id="keren-employee" placeholder="×œ×“×•×’×ž×”: 380" min="0" />
+          <input type="number" id="keren-employee" placeholder="לדוגמה: 380" min="0" />
         </div>
         <div class="field-group">
-          <label for="keren-employer">×”×¤×¨×©×ª ×ž×¢×¡×™×§ ×œ×§×¨×Ÿ ×”×©×ª×œ×ž×•×ª (â‚ª/×—×•×“×©)
-            <span style="font-weight:400;color:#888;font-size:0.78rem"> â€” ×‘×ª×œ×•×©: "×§×¨×Ÿ ×”×©×ª×œ×ž×•×ª ×ž×¢×¡×™×§" (×œ×™×“×¢ ×‘×œ×‘×“)</span>
+          <label for="keren-employer">הפרשת מעסיק לקרן השתלמות (₪/חודש)
+            <span style="font-weight:400;color:#888;font-size:0.78rem"> — בתלוש: "קרן השתלמות מעסיק" (לידע בלבד)</span>
           </label>
-          <input type="number" id="keren-employer" placeholder="×œ×“×•×’×ž×”: 760" min="0" />
+          <input type="number" id="keren-employer" placeholder="לדוגמה: 760" min="0" />
         </div>
       </div>
 
       <hr class="divider" />
-      <div class="section-label">×ª×¨×•×ž×•×ª (×¡×¢×™×£ 46) â€” ×–×™×›×•×™ ×ž×¡ 35%</div>
+      <div class="section-label">תרומות (סעיף 46) — זיכוי מס 35%</div>
       <div class="field-group">
-        <label for="donation">×¡×›×•× ×ª×¨×•×ž×•×ª ×©× ×ª×™ (â‚ª)
-          <span style="font-weight:400;color:#888;font-size:0.78rem"> â€” ×¢×œ ×ª×¨×•×ž×•×ª ×ž×¢×œ 190 â‚ª ×œ×©× ×” ×œ×’×•×¤×™× ×ž×•×›×¨×™×. ×”×–×™×›×•×™ ×™×—×•×œ×§ ×œ-12 ×—×•×“×©×™×</span>
+        <label for="donation">סכום תרומות שנתי (₪)
+          <span style="font-weight:400;color:#888;font-size:0.78rem"> — על תרומות מעל 190 ₪ לשנה לגופים מוכרים. הזיכוי יחולק ל-12 חודשים</span>
         </label>
-        <input type="number" id="donation" placeholder="×œ×“×•×’×ž×”: 1200" min="0" />
+        <input type="number" id="donation" placeholder="לדוגמה: 1200" min="0" />
       </div>
 
       <hr class="divider" />
-      <div class="section-label">×‘×™×˜×•×— ×œ××•×ž×™ ×•×ž×¡ ×‘×¨×™××•×ª (2026)</div>
-      <p style="font-size:0.82rem;color:#888;margin-bottom:10px">×ž×•×¤×™×¢×™× ×‘×ª×œ×•×© ×ª×—×ª <strong>"× ×™×›×•×™×™×"</strong> â€” ×©×•×¨×•×ª <strong>"×‘×™×˜×•×— ×œ××•×ž×™"</strong> ×•<strong>"×ž×¡ ×‘×¨×™××•×ª"</strong>. ×”×ž×—×©×‘×•×Ÿ ×™×—×©×‘ ××•×˜×•×ž×˜×™×ª ×œ×¤×™ ×©×™×¢×•×¨×™ 2026.</p>
+      <div class="section-label">ביטוח לאומי ומס בריאות (2026)</div>
+      <p style="font-size:0.82rem;color:#888;margin-bottom:10px">מופיעים בתלוש תחת <strong>"ניכויים"</strong> — שורות <strong>"ביטוח לאומי"</strong> ו<strong>"מס בריאות"</strong>. המחשבון יחשב אוטומטית לפי שיעורי 2026.</p>
       <div class="field-row">
         <div class="field-group">
-          <label for="include-bituach">×›×œ×•×œ ×‘×—×™×©×•×‘ ×”× ×˜×• ×”×¡×•×¤×™?</label>
+          <label for="include-bituach">כלול בחישוב הנטו הסופי?</label>
           <select id="include-bituach" style="width:100%;padding:9px 12px;border:2px solid #ddd;border-radius:8px;font-size:0.95rem;outline:none;">
-            <option value="yes">×›×Ÿ â€” ×”×¦×’ × ×˜×• ××ž×™×ª×™</option>
-            <option value="no">×œ× â€” ×ž×¡ ×”×›× ×¡×” ×‘×œ×‘×“</option>
+            <option value="yes">כן — הצג נטו אמיתי</option>
+            <option value="no">לא — מס הכנסה בלבד</option>
           </select>
         </div>
       </div>
 
     </div>
 
-    <button onclick="calculate()">×—×©×‘ ×ž×¡</button>
+    <button onclick="calculate()">חשב מס</button>
 
     <div class="results" id="results">
 
-      <!-- ×›×¨×˜×™×¡ × ×˜×• ×‘×•×œ×˜ -->
       <div class="net-hero" id="hero-card">
-        <div class="label">ðŸ’° ×©×›×¨ × ×˜×• ×œ×§×‘×œ×” (×ž×¡ ×”×›× ×¡×” ×‘×œ×‘×“)</div>
+        <div class="label">💰 שכר נטו לקבלה (מס הכנסה בלבד)</div>
         <div class="amount" id="hero-amount"></div>
         <div class="sub" id="hero-sub"></div>
       </div>
 
       <div class="result-card">
         <div class="result-row">
-          <span class="result-label">×ž×©×›×•×¨×ª ×‘×¨×•×˜×•</span>
+          <span class="result-label">משכורת ברוטו</span>
           <span class="result-value" id="res-gross"></span>
         </div>
         <div class="result-row">
           <span class="result-label">
-            <button class="tip-btn" tabindex="0">?<span class="tip-text">×›×œ × ×§×•×“×ª ×–×™×›×•×™ ×©×•×•×” 242 â‚ª ×”× ×—×” ×‘×ž×¡. ×ª×•×©×‘ ×™×©×¨××œ ×ž×§×‘×œ 2.25 × ×§×•×“×•×ª ××•×˜×•×ž×˜×™×ª.</span></button>
-            × ×§×•×“×•×ª ×–×™×›×•×™ (×¢×¨×š ×—×•×“×©×™)
+            <button class="tip-btn" tabindex="0">?<span class="tip-text">כל נקודת זיכוי שווה 242 ₪ הנחה במס. תושב ישראל מקבל 2.25 נקודות אוטומטית.</span></button>
+            נקודות זיכוי (ערך חודשי)
           </span>
           <span class="result-value" id="res-credit"></span>
         </div>
         <div class="result-row">
-          <span class="result-label">×ž×¡ ×”×›× ×¡×” ×œ×¤×™ ×ž×“×¨×’×•×ª</span>
+          <span class="result-label">מס הכנסה לפי מדרגות</span>
           <span class="result-value highlight" id="res-tax"></span>
         </div>
         <div class="result-row">
-          <span class="result-label">×ž×¡ ×œ××—×¨ ×›×œ ×”×–×™×›×•×™×™×</span>
+          <span class="result-label">מס לאחר כל הזיכויים</span>
           <span class="result-value highlight" id="res-tax-after-credit"></span>
         </div>
         <div class="result-row">
           <span class="result-label">
-            <button class="tip-btn" tabindex="0">?<span class="tip-text">××—×•×– ×”×ž×¡ ×©××ª×” ×ž×©×œ× ×‘×¤×•×¢×œ ×ž×ª×•×š ×›×œ ×”×©×›×¨ â€” ×œ× ×©×™×¢×•×¨ ×”×ž×“×¨×’×” ×”×’×‘×•×”×”.</span></button>
-            ××—×•×– ×ž×¡ ××¤×§×˜×™×‘×™
+            <button class="tip-btn" tabindex="0">?<span class="tip-text">אחוז המס שאתה משלם בפועל מתוך כל השכר — לא שיעור המדרגה הגבוהה.</span></button>
+            אחוז מס אפקטיבי
           </span>
           <span class="result-value" id="res-effective"></span>
         </div>
         <div class="result-row">
-          <span class="result-label">×©×›×¨ × ×˜×• (××—×¨×™ ×ž×¡ ×”×›× ×¡×”)</span>
+          <span class="result-label">שכר נטו (אחרי מס הכנסה)</span>
           <span class="result-value green" id="res-net"></span>
         </div>
       </div>
 
-      <!-- ×›×¨×˜×™×¡ × ×™×›×•×™×™× × ×•×¡×¤×™× -->
       <div class="result-card" id="card-extras" style="display:none">
-        <div class="brackets-title">×¤×™×¨×•×˜ ×–×™×›×•×™×™× ×•× ×™×›×•×™×™×</div>
+        <div class="brackets-title">פירוט זיכויים וניכויים</div>
         <div class="result-row sub" id="row-pension" style="display:none">
-          <span class="result-label muted">×–×™×›×•×™ ×ž×¡ â€” ×¤× ×¡×™×” ×¢×•×‘×“ (35%)</span>
+          <span class="result-label muted">זיכוי מס — פנסיה עובד (35%)</span>
           <span class="result-value muted" id="res-pension-credit"></span>
         </div>
         <div class="result-row sub" id="row-keren" style="display:none">
           <span class="result-label muted">
-            <button class="tip-btn" tabindex="0">?<span class="tip-text">×”×¤×¨×©×ª ×”×¢×•×‘×“ ×œ×§×¨×Ÿ ×”×©×ª×œ×ž×•×ª ×ž×•×¤×—×ª×ª ×ž×”×›× ×¡×” ×”×—×™×™×‘×ª ×¢×“ ×ª×§×¨×” ×©×œ 2,532 â‚ª/×—×•×“×©.</span></button>
-            ×”×¤×—×ª×ª ×”×›× ×¡×” â€” ×§×¨×Ÿ ×”×©×ª×œ×ž×•×ª ×¢×•×‘×“
+            <button class="tip-btn" tabindex="0">?<span class="tip-text">הפרשת העובד לקרן השתלמות מופחתת מהכנסה החייבת עד תקרה של 2,532 ₪/חודש.</span></button>
+            הפחתת הכנסה — קרן השתלמות עובד
           </span>
           <span class="result-value muted" id="res-keren-credit"></span>
         </div>
         <div class="result-row sub" id="row-donation" style="display:none">
-          <span class="result-label muted">×–×™×›×•×™ ×ž×¡ â€” ×ª×¨×•×ž×•×ª (35%)</span>
+          <span class="result-label muted">זיכוי מס — תרומות (35%)</span>
           <span class="result-value muted" id="res-donation-credit"></span>
         </div>
         <div class="result-row sub" id="row-bituach" style="display:none">
-          <span class="result-label muted">×‘×™×˜×•×— ×œ××•×ž×™ (×—×œ×§ ×¢×•×‘×“)</span>
+          <span class="result-label muted">ביטוח לאומי (חלק עובד)</span>
           <span class="result-value muted" id="res-bituach"></span>
         </div>
         <div class="result-row sub" id="row-health" style="display:none">
-          <span class="result-label muted">×ž×¡ ×‘×¨×™××•×ª (×—×œ×§ ×¢×•×‘×“)</span>
+          <span class="result-label muted">מס בריאות (חלק עובד)</span>
           <span class="result-value muted" id="res-health"></span>
         </div>
         <div class="result-row" id="row-net-full" style="display:none">
-          <span class="result-label" style="font-weight:700">× ×˜×• ×¡×•×¤×™ (××—×¨×™ ×›×œ ×”× ×™×›×•×™×™×)</span>
+          <span class="result-label" style="font-weight:700">נטו סופי (אחרי כל הניכויים)</span>
           <span class="result-value green" style="font-size:1.2rem" id="res-net-full"></span>
         </div>
       </div>
 
       <div class="result-card">
-        <div class="brackets-title">×¤×™×¨×•×˜ ×ž×“×¨×’×•×ª ×”×ž×¡</div>
+        <div class="brackets-title">פירוט מדרגות המס</div>
         <div id="brackets-detail"></div>
       </div>
 
       <div class="export-row">
-        <button class="export-btn" onclick="exportPDF()">ðŸ–¨ï¸ ×”×“×¤×¡×” / ×©×ž×•×¨ PDF</button>
-        <button class="export-btn" onclick="exportCSV()">ðŸ“Š ×”×•×¨×“ ×œ××§×¡×œ (CSV)</button>
+        <button class="export-btn" onclick="exportPDF()">🖨️ הדפסה / שמור PDF</button>
+        <button class="export-btn" onclick="exportCSV()">📊 הורד לאקסל (CSV)</button>
       </div>
 
       <p class="note" id="res-note">
-        * ×—×™×©×•×‘ ×–×” ×ž×‘×•×¡×¡ ×¢×œ 2.25 × ×§×•×“×•×ª ×–×™×›×•×™ (×ª×•×©×‘ ×™×©×¨××œ + ×¢×•×‘×“ ×©×›×™×¨).<br />
-        * ×ž×“×¨×’×ª 50% ×—×œ×” ×¢×œ ×”×›× ×¡×” ×ž×¢×œ 60,130 â‚ª ×œ×—×•×“×© (×›×•×œ×œ 3% ×ž×¡ × ×•×¡×£).<br />
-        * ×œ× ×›×•×œ×œ ×‘×™×˜×•×— ×œ××•×ž×™ ×•×ž×¡ ×‘×¨×™××•×ª. ×œ×™×™×¢×•×¥ ×ž×“×•×™×§ ×¤× ×” ×œ×¨×•××” ×—×©×‘×•×Ÿ.
+        * חישוב זה מבוסס על 2.25 נקודות זיכוי (תושב ישראל + עובד שכיר).<br />
+        * מדרגת 50% חלה על הכנסה מעל 60,130 ₪ לחודש (כולל 3% מס נוסף).<br />
+        * לא כולל ביטוח לאומי ומס בריאות. לייעוץ מדויק פנה לרואה חשבון.
       </p>
     </div>
 
-    <!-- ××™×š ×–×” ×ž×—×•×©×‘ -->
     <div class="how-toggle" id="how-toggle" onclick="toggleHow()">
-      <span class="how-arrow">â–¶</span>
-      <span>××™×š ×”×ž×—×©×‘×•×Ÿ ×¢×•×‘×“?</span>
+      <span class="how-arrow">&#9658;</span>
+      <span>איך המחשבון עובד?</span>
     </div>
     <div class="how-section" id="how-section">
 
-      <h3>×©×œ×‘×™ ×”×—×™×©×•×‘</h3>
+      <h3>שלבי החישוב</h3>
       <div class="how-step">
         <div class="how-step-num">1</div>
-        <div><strong>×”×¤×—×ª×ª ×§×¨×Ÿ ×”×©×ª×œ×ž×•×ª (×× ×”×•×–× ×”):</strong> ×”×¤×¨×©×ª ×”×¢×•×‘×“ ×œ×§×¨×Ÿ ×”×©×ª×œ×ž×•×ª ×ž×•×¤×—×ª×ª ×ž×”×”×›× ×¡×” ×”×—×™×™×‘×ª ×‘×ž×¡ â€” ×¢×“ ×ª×§×¨×” ×©×œ 2,532 â‚ª ×œ×—×•×“×©. ×”×ž×¡ ×ž×—×•×©×‘ ×¢×œ ×”×©×›×¨ ×œ××—×¨ ×”×”×¤×—×ª×”.</div>
+        <div><strong>הפחתת קרן השתלמות (אם הוזנה):</strong> הפרשת העובד לקרן השתלמות מופחתת מההכנסה החייבת במס — עד תקרה של 2,532 ₪ לחודש.</div>
       </div>
       <div class="how-step">
         <div class="how-step-num">2</div>
-        <div><strong>×—×™×©×•×‘ ×ž×¡ ×’×•×œ×ž×™ ×œ×¤×™ ×ž×“×¨×’×•×ª:</strong> ×”×”×›× ×¡×” (×œ××—×¨ ×”×¤×—×ª×ª ×§×¨×Ÿ ×”×©×ª×œ×ž×•×ª) ×ž×—×•×œ×§×ª ×œ×©×›×‘×•×ª. ×›×œ ×©×›×‘×” ×ž×ž×•×¡×” ×‘×©×™×¢×•×¨ ×©×œ×” ×‘×œ×‘×“ â€” ×œ× ×¢×œ ×›×œ ×”×”×›× ×¡×”.</div>
+        <div><strong>חישוב מס גולמי לפי מדרגות:</strong> ההכנסה מחולקת לשכבות. כל שכבה ממוסה בשיעור שלה בלבד — לא על כל ההכנסה.</div>
       </div>
       <div class="how-step">
         <div class="how-step-num">3</div>
-        <div><strong>×”×¤×—×ª×ª ×–×™×›×•×™×™× ×ž×”×ž×¡:</strong> ×ž×¡×›×•× ×”×ž×¡ ×ž×•×¤×—×ª×™×:
+        <div><strong>הפחתת זיכויים מהמס:</strong>
           <ul style="margin-top:5px;margin-right:16px;font-size:0.87rem">
-            <li><strong>× ×§×•×“×•×ª ×–×™×›×•×™</strong> â€” ×›×œ × ×§×•×“×” ×©×•×•×” 242 â‚ª ×œ×—×•×“×© (2026)</li>
-            <li><strong>×–×™×›×•×™ ×¤× ×¡×™×”</strong> â€” 35% ×ž×”×¤×¨×©×ª ×”×¢×•×‘×“ (×× ×”×•×–× ×”)</li>
-            <li><strong>×–×™×›×•×™ ×ª×¨×•×ž×•×ª</strong> â€” 35% ×ž×¡×›×•× ×”×ª×¨×•×ž×•×ª ×”×©× ×ª×™, ×ž×—×•×œ×§ ×œ-12 (×× ×”×•×–×Ÿ)</li>
+            <li><strong>נקודות זיכוי</strong> — כל נקודה שווה 242 ₪ לחודש (2026)</li>
+            <li><strong>זיכוי פנסיה</strong> — 35% מהפרשת העובד (אם הוזנה)</li>
+            <li><strong>זיכוי תרומות</strong> — 35% מסכום התרומות השנתי, מחולק ל-12 (אם הוזן)</li>
           </ul>
         </div>
       </div>
       <div class="how-step">
         <div class="how-step-num">4</div>
-        <div><strong>×‘×™×˜×•×— ×œ××•×ž×™ ×•×ž×¡ ×‘×¨×™××•×ª (×× × ×‘×—×¨):</strong> ×ž×—×•×©×‘ ×œ×¤×™ ×©×™×¢×•×¨×™ 2026 ×¢×œ ×—×œ×§ ×”×¢×•×‘×“ ×‘×œ×‘×“, ×•×ž×•×¤×—×ª ×ž×”× ×˜×• ×”×¡×•×¤×™.</div>
+        <div><strong>ביטוח לאומי ומס בריאות (אם נבחר):</strong> מחושב לפי שיעורי 2026 על חלק העובד בלבד.</div>
       </div>
 
-      <h3>×ž×“×¨×’×•×ª ×”×ž×¡ 2026 (×—×•×“×©×™)</h3>
+      <h3>מדרגות המס 2026 (חודשי)</h3>
       <table class="how-table">
         <thead>
           <tr>
-            <th>×”×›× ×¡×” ×—×•×“×©×™×ª</th>
-            <th>×©×™×¢×•×¨ ×ž×¡</th>
-            <th>×ž×¡ ×ž×§×¡×™×ž×œ×™ ×‘×ž×“×¨×’×”</th>
+            <th>הכנסה חודשית</th>
+            <th>שיעור מס</th>
+            <th>מס מקסימלי במדרגה</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td>â‚ª0 â€“ â‚ª7,010</td><td>10%</td><td>â‚ª701</td></tr>
-          <tr><td>â‚ª7,011 â€“ â‚ª10,060</td><td>14%</td><td>â‚ª427</td></tr>
-          <tr><td>â‚ª10,061 â€“ â‚ª19,000</td><td>20%</td><td>â‚ª1,788</td></tr>
-          <tr><td>â‚ª19,001 â€“ â‚ª25,100</td><td>31%</td><td>â‚ª1,891</td></tr>
-          <tr><td>â‚ª25,101 â€“ â‚ª46,690</td><td>35%</td><td>â‚ª7,556</td></tr>
-          <tr><td>â‚ª46,691 â€“ â‚ª60,130</td><td>47%</td><td>â‚ª6,317</td></tr>
-          <tr><td>â‚ª60,131 ×•×ž×¢×œ×”</td><td>50%</td><td>â€”</td></tr>
+          <tr><td>&#8362;0 – &#8362;7,010</td><td>10%</td><td>&#8362;701</td></tr>
+          <tr><td>&#8362;7,011 – &#8362;10,060</td><td>14%</td><td>&#8362;427</td></tr>
+          <tr><td>&#8362;10,061 – &#8362;19,000</td><td>20%</td><td>&#8362;1,788</td></tr>
+          <tr><td>&#8362;19,001 – &#8362;25,100</td><td>31%</td><td>&#8362;1,891</td></tr>
+          <tr><td>&#8362;25,101 – &#8362;46,690</td><td>35%</td><td>&#8362;7,556</td></tr>
+          <tr><td>&#8362;46,691 – &#8362;60,130</td><td>47%</td><td>&#8362;6,317</td></tr>
+          <tr><td>&#8362;60,131 ומעלה</td><td>50%</td><td>—</td></tr>
         </tbody>
       </table>
 
-      <h3>×“×•×’×ž×” â€” ×ž×©×›×•×¨×ª 15,000 â‚ª</h3>
+      <h3>דוגמה — משכורת 15,000 ₪</h3>
       <div class="how-formula">
-  7,010 Ã— 10% =   701 â‚ª
-  3,050 Ã— 14% =   427 â‚ª  (7,011â€“10,060)
-  4,940 Ã— 20% =   988 â‚ª  (10,061â€“15,000)
-  â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  ×¡×”"×› ×ž×¡ ×’×•×œ×ž×™ = 2,116 â‚ª
-  ×¤×—×•×ª × ×§×•×“×•×ª ×–×™×›×•×™ (2.25 Ã— 242) = 544 â‚ª
-  â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  ×ž×¡ ×œ×ª×©×œ×•× â‰ˆ 1,572 â‚ª
+  7,010 x 10% =   701
+  3,050 x 14% =   427  (7,011-10,060)
+  4,940 x 20% =   988  (10,061-15,000)
+  ---------------------
+  סה"כ מס גולמי = 2,116
+  פחות נקודות זיכוי (2.25 x 242) = 544
+  ---------------------
+  מס לתשלום ~ 1,572
       </div>
 
-      <h3>×‘×™×˜×•×— ×œ××•×ž×™ ×•×ž×¡ ×‘×¨×™××•×ª 2026 (×—×œ×§ ×¢×•×‘×“)</h3>
+      <h3>ביטוח לאומי ומס בריאות 2026 (חלק עובד)</h3>
       <table class="how-table">
         <thead>
-          <tr><th>×”×›× ×¡×”</th><th>×‘×™×˜×•×— ×œ××•×ž×™</th><th>×ž×¡ ×‘×¨×™××•×ª</th></tr>
+          <tr><th>הכנסה</th><th>ביטוח לאומי</th><th>מס בריאות</th></tr>
         </thead>
         <tbody>
-          <tr><td>×¢×“ â‚ª7,522</td><td>0.4%</td><td>3.1%</td></tr>
-          <tr><td>â‚ª7,523 â€“ â‚ª47,465</td><td>7%</td><td>5%</td></tr>
-          <tr><td>×ž×¢×œ â‚ª47,465</td><td>0%</td><td>0%</td></tr>
+          <tr><td>עד &#8362;7,522</td><td>0.4%</td><td>3.1%</td></tr>
+          <tr><td>&#8362;7,523 – &#8362;47,465</td><td>7%</td><td>5%</td></tr>
+          <tr><td>מעל &#8362;47,465</td><td>0%</td><td>0%</td></tr>
         </tbody>
       </table>
 
@@ -679,198 +670,149 @@
   </div>
 
   <script>
-    // ×ž×“×¨×’×•×ª ×ž×¡ ×”×›× ×¡×” ×—×•×“×©×™×•×ª ×œ×©× ×ª 2026 (×©× ×ª×™×•×ª ×—×œ×§×™ 12)
-    // ×ž×“×¨×’×•×ª ×©× ×ª×™×•×ª: 0-84120 â†’ 10%, 84120-120720 â†’ 14%, 120720-228000 â†’ 20%,
-    //                228000-301200 â†’ 31%, 301200-560280 â†’ 35%, 560280-721560 â†’ 47%, ×ž×¢×œ 721560 â†’ 50%
     const BRACKETS = [
-      { upTo: 7010,   rate: 0.10 },
-      { upTo: 10060,  rate: 0.14 },
-      { upTo: 19000,  rate: 0.20 },
-      { upTo: 25100,  rate: 0.31 },
-      { upTo: 46690,  rate: 0.35 },
-      { upTo: 60130,  rate: 0.47 },
+      { upTo: 7010,     rate: 0.10 },
+      { upTo: 10060,    rate: 0.14 },
+      { upTo: 19000,    rate: 0.20 },
+      { upTo: 25100,    rate: 0.31 },
+      { upTo: 46690,    rate: 0.35 },
+      { upTo: 60130,    rate: 0.47 },
       { upTo: Infinity, rate: 0.50 },
     ];
 
-    // ×¢×¨×š × ×§×•×“×ª ×–×™×›×•×™ ×—×•×“×©×™×ª 2026
-    const CREDIT_POINT_VALUE = 242; // â‚ª ×œ×—×•×“×©
-    const DEFAULT_CREDIT_POINTS = 2.25; // ×ª×•×©×‘ + ×©×›×™×¨
-
-    // ×‘×™×˜×•×— ×œ××•×ž×™ ×•×ž×¡ ×‘×¨×™××•×ª 2026 (×—×œ×§ ×¢×•×‘×“)
-    // ×‘×˜"×œ: 0.4% ×¢×“ 7,522 â‚ª, 7% ×ž-7,522 ×¢×“ 47,465 â‚ª
-    // ×ž×¡ ×‘×¨×™××•×ª: 3.1% ×¢×“ 7,522 â‚ª, 5% ×ž-7,522 ×¢×“ 47,465 â‚ª
-    const BIT_LOW_RATE    = 0.004;
-    const BIT_HIGH_RATE   = 0.07;
-    const HEALTH_LOW_RATE = 0.031;
-    const HEALTH_HIGH_RATE= 0.05;
-    const BIT_LOW_CEIL    = 7522;
-    const BIT_HIGH_CEIL   = 47465;
+    const CREDIT_POINT_VALUE    = 242;
+    const DEFAULT_CREDIT_POINTS = 2.25;
+    const BIT_LOW_RATE     = 0.004;
+    const BIT_HIGH_RATE    = 0.07;
+    const HEALTH_LOW_RATE  = 0.031;
+    const HEALTH_HIGH_RATE = 0.05;
+    const BIT_LOW_CEIL     = 7522;
+    const BIT_HIGH_CEIL    = 47465;
 
     function formatMoney(n) {
-      return 'â‚ª' + Math.round(n).toLocaleString('he-IL');
+      return '\u20AA' + Math.round(n).toLocaleString('he-IL');
     }
 
     function toggleAdvanced() {
-      const toggle = document.getElementById('adv-toggle');
-      const section = document.getElementById('adv-section');
-      toggle.classList.toggle('open');
-      section.classList.toggle('visible');
+      document.getElementById('adv-toggle').classList.toggle('open');
+      document.getElementById('adv-section').classList.toggle('visible');
     }
 
     function toggleHow() {
-      const toggle = document.getElementById('how-toggle');
-      const section = document.getElementById('how-section');
-      toggle.classList.toggle('open');
-      section.classList.toggle('visible');
+      document.getElementById('how-toggle').classList.toggle('open');
+      document.getElementById('how-section').classList.toggle('visible');
     }
 
     function calcBituach(salary) {
-      const s = Math.min(salary, BIT_HIGH_CEIL);
+      const s    = Math.min(salary, BIT_HIGH_CEIL);
       const low  = Math.min(s, BIT_LOW_CEIL);
       const high = Math.max(0, s - BIT_LOW_CEIL);
-      const bituach = low * BIT_LOW_RATE + high * BIT_HIGH_RATE;
-      const health  = low * HEALTH_LOW_RATE + high * HEALTH_HIGH_RATE;
-      return { bituach, health };
+      return {
+        bituach: low * BIT_LOW_RATE    + high * BIT_HIGH_RATE,
+        health:  low * HEALTH_LOW_RATE + high * HEALTH_HIGH_RATE,
+      };
     }
 
     function calculateTax(salary) {
-      let tax = 0;
-      let prev = 0;
+      let tax = 0, prev = 0;
       const details = [];
-
       for (const bracket of BRACKETS) {
         if (salary <= prev) break;
-        const taxable = Math.min(salary, bracket.upTo) - prev;
+        const taxable    = Math.min(salary, bracket.upTo) - prev;
         const bracketTax = taxable * bracket.rate;
         tax += bracketTax;
-        details.push({
-          from: prev,
-          to: Math.min(salary, bracket.upTo),
-          rate: bracket.rate,
-          taxable,
-          tax: bracketTax,
-        });
+        details.push({ from: prev, to: Math.min(salary, bracket.upTo), rate: bracket.rate, taxable, tax: bracketTax });
         prev = bracket.upTo;
       }
-
       return { tax, details };
     }
 
     function calculate() {
       const salary = parseFloat(document.getElementById('salary').value);
-      if (!salary || salary <= 0) {
-        alert('× × ×œ×”×–×™×Ÿ ×ž×©×›×•×¨×ª ×—×™×•×‘×™×ª');
-        return;
-      }
+      if (!salary || salary <= 0) { alert('\u05E0\u05D0 \u05DC\u05D4\u05D6\u05D9\u05DF \u05DE\u05E9\u05DB\u05D5\u05E8\u05EA \u05D7\u05D9\u05D5\u05D1\u05D9\u05EA'); return; }
 
-      // × ×§×•×“×•×ª ×–×™×›×•×™
-      const cpInput = parseFloat(document.getElementById('credit-points').value);
+      const cpInput      = parseFloat(document.getElementById('credit-points').value);
       const creditPoints = (!isNaN(cpInput) && cpInput >= 0) ? cpInput : DEFAULT_CREDIT_POINTS;
-      const creditValue = creditPoints * CREDIT_POINT_VALUE;
+      const creditValue  = creditPoints * CREDIT_POINT_VALUE;
 
-      // ×¤× ×¡×™×” â€” ×–×™×›×•×™ ×ž×¡ 35% ×¢×œ ×”×¤×¨×©×ª ×¢×•×‘×“
       const pensionEmployee = parseFloat(document.getElementById('pension-employee').value) || 0;
       const pensionCredit   = pensionEmployee * 0.35;
 
-      // ×§×¨×Ÿ ×”×©×ª×œ×ž×•×ª â€” ×”×¤×—×ª×ª ×”×›× ×¡×” ×—×™×™×‘×ª ×¢×“ ×ª×§×¨×” 2,532 â‚ª/×—×•×“×©
-      const KEREN_CAP = 2532;
-      const kerenEmployee = parseFloat(document.getElementById('keren-employee').value) || 0;
-      const kerenDeductible = Math.min(kerenEmployee, KEREN_CAP);
+      const kerenEmployee   = parseFloat(document.getElementById('keren-employee').value) || 0;
+      const kerenDeductible = Math.min(kerenEmployee, 2532);
 
-      // ×ª×¨×•×ž×•×ª â€” ×–×™×›×•×™ ×ž×¡ 35% (×ž×™× ×™×ž×•× 190 â‚ª ×©× ×ª×™), ×ž×—×•×œ×§ ×œ-12
       const donationAnnual = parseFloat(document.getElementById('donation').value) || 0;
       const donationCredit = donationAnnual >= 190 ? (donationAnnual * 0.35) / 12 : 0;
 
-      // ×—×™×©×•×‘ ×ž×¡ ×¢×œ ×”×›× ×¡×” ×ž×•×¤×—×ª×ª (××—×¨×™ ×§×¨×Ÿ ×”×©×ª×œ×ž×•×ª)
-      const taxableSalary = Math.max(0, salary - kerenDeductible);
-      const { tax, details } = calculateTax(taxableSalary);
-      const taxAfterCredit = Math.max(0, tax - creditValue - pensionCredit - donationCredit);
-      const effectiveRate  = (taxAfterCredit / salary * 100).toFixed(1);
+      const taxableSalary     = Math.max(0, salary - kerenDeductible);
+      const { tax, details }  = calculateTax(taxableSalary);
+      const taxAfterCredit    = Math.max(0, tax - creditValue - pensionCredit - donationCredit);
+      const effectiveRate     = (taxAfterCredit / salary * 100).toFixed(1);
       const netAfterIncomeTax = salary - taxAfterCredit;
 
       document.getElementById('res-gross').textContent            = formatMoney(salary);
-      document.getElementById('res-credit').textContent           = formatMoney(creditValue) + ` (${creditPoints} × ×§')`;
+      document.getElementById('res-credit').textContent           = formatMoney(creditValue) + ' (' + creditPoints + ' \u05E0\u05E7\u05F3)';
       document.getElementById('res-tax').textContent              = formatMoney(tax);
       document.getElementById('res-tax-after-credit').textContent = formatMoney(taxAfterCredit);
       document.getElementById('res-effective').textContent        = effectiveRate + '%';
       document.getElementById('res-net').textContent              = formatMoney(netAfterIncomeTax);
+      document.getElementById('hero-amount').textContent          = formatMoney(netAfterIncomeTax);
 
-      // hero card
-      document.getElementById('hero-amount').textContent = formatMoney(netAfterIncomeTax);
-
-      // ×¤×™×¨×•×˜ ×ž×“×¨×’×•×ª
       let html = '';
       for (const d of details) {
         if (d.taxable <= 0) continue;
-        html += `
-          <div class="bracket-row">
-            <span>${formatMoney(d.from)} â€“ ${d.to === Infinity ? '×•×ž×¢×œ×”' : formatMoney(d.to)}</span>
-            <span>${(d.rate * 100).toFixed(0)}% Ã— ${formatMoney(d.taxable)}</span>
-            <span class="bracket-tax">${formatMoney(d.tax)}</span>
-          </div>`;
+        html += '<div class="bracket-row">'
+          + '<span>' + formatMoney(d.from) + ' \u2013 ' + (d.to === Infinity ? '\u05D5\u05DE\u05E2\u05DC\u05D4' : formatMoney(d.to)) + '</span>'
+          + '<span>' + (d.rate * 100).toFixed(0) + '% \u00D7 ' + formatMoney(d.taxable) + '</span>'
+          + '<span class="bracket-tax">' + formatMoney(d.tax) + '</span>'
+          + '</div>';
       }
       document.getElementById('brackets-detail').innerHTML = html;
 
-      // × ×™×›×•×™×™× × ×•×¡×¤×™×
       const includeBituach = document.getElementById('include-bituach').value === 'yes';
-      const hasPension   = pensionEmployee > 0;
-      const hasKeren     = kerenEmployee > 0;
-      const hasDonation  = donationCredit > 0;
       const { bituach, health } = calcBituach(salary);
-      const cardExtras = document.getElementById('card-extras');
+      const showExtras = pensionEmployee > 0 || kerenEmployee > 0 || donationCredit > 0 || includeBituach;
 
-      const showExtras = hasPension || hasKeren || hasDonation || includeBituach;
-      cardExtras.style.display = showExtras ? 'block' : 'none';
+      document.getElementById('card-extras').style.display = showExtras ? 'block' : 'none';
+
+      const show = (id, cond) => { document.getElementById(id).style.display = cond ? 'flex' : 'none'; };
 
       if (showExtras) {
-        // ×¤× ×¡×™×”
-        document.getElementById('row-pension').style.display = hasPension ? 'flex' : 'none';
-        if (hasPension) document.getElementById('res-pension-credit').textContent = 'âˆ’' + formatMoney(pensionCredit);
+        show('row-pension',  pensionEmployee > 0);
+        show('row-keren',    kerenEmployee > 0);
+        show('row-donation', donationCredit > 0);
+        show('row-bituach',  includeBituach);
+        show('row-health',   includeBituach);
+        show('row-net-full', includeBituach);
 
-        // ×§×¨×Ÿ ×”×©×ª×œ×ž×•×ª
-        document.getElementById('row-keren').style.display = hasKeren ? 'flex' : 'none';
-        if (hasKeren) document.getElementById('res-keren-credit').textContent =
-          'âˆ’' + formatMoney(kerenDeductible) + ' ×ž×”×›× ×¡×” ×”×—×™×™×‘×ª';
+        if (pensionEmployee > 0) document.getElementById('res-pension-credit').textContent  = '\u2212' + formatMoney(pensionCredit);
+        if (kerenEmployee > 0)   document.getElementById('res-keren-credit').textContent    = '\u2212' + formatMoney(kerenDeductible) + ' \u05DE\u05D4\u05DB\u05E0\u05E1\u05D4 \u05D4\u05D7\u05D9\u05D9\u05D1\u05EA';
+        if (donationCredit > 0)  document.getElementById('res-donation-credit').textContent = '\u2212' + formatMoney(donationCredit);
 
-        // ×ª×¨×•×ž×•×ª
-        document.getElementById('row-donation').style.display = hasDonation ? 'flex' : 'none';
-        if (hasDonation) document.getElementById('res-donation-credit').textContent = 'âˆ’' + formatMoney(donationCredit);
-
-        // ×‘×˜×œ
         if (includeBituach) {
-          document.getElementById('row-bituach').style.display  = 'flex';
-          document.getElementById('row-health').style.display   = 'flex';
-          document.getElementById('row-net-full').style.display = 'flex';
-          document.getElementById('res-bituach').textContent    = formatMoney(bituach);
-          document.getElementById('res-health').textContent     = formatMoney(health);
+          document.getElementById('res-bituach').textContent  = formatMoney(bituach);
+          document.getElementById('res-health').textContent   = formatMoney(health);
           const netFull = netAfterIncomeTax - bituach - health;
-          document.getElementById('res-net-full').textContent   = formatMoney(netFull);
-          // ×¢×“×›×Ÿ hero
-          document.getElementById('hero-card').querySelector('.label').textContent = 'ðŸ’° ×©×›×¨ × ×˜×• ×œ×§×‘×œ×” (×›×•×œ×œ ×›×œ ×”× ×™×›×•×™×™×)';
-          document.getElementById('hero-amount').textContent = formatMoney(netFull);
-          document.getElementById('hero-sub').textContent = `×ž×¡ ×”×›× ×¡×”: ${formatMoney(taxAfterCredit)} | ×‘×˜"×œ: ${formatMoney(bituach)} | ×‘×¨×™××•×ª: ${formatMoney(health)}`;
+          document.getElementById('res-net-full').textContent = formatMoney(netFull);
+          document.getElementById('hero-card').querySelector('.label').textContent = '\uD83D\uDCB0 \u05E9\u05DB\u05E8 \u05E0\u05D8\u05D5 \u05DC\u05E7\u05D1\u05DC\u05D4 (\u05DB\u05D5\u05DC\u05DC \u05DB\u05DC \u05D4\u05E0\u05D9\u05DB\u05D5\u05D9\u05D9\u05DD)';
+          document.getElementById('hero-amount').textContent  = formatMoney(netFull);
+          document.getElementById('hero-sub').textContent     = '\u05DE\u05E1 \u05D4\u05DB\u05E0\u05E1\u05D4: ' + formatMoney(taxAfterCredit) + ' | \u05D1\u05D8"\u05DC: ' + formatMoney(bituach) + ' | \u05D1\u05E8\u05D9\u05D0\u05D5\u05EA: ' + formatMoney(health);
         } else {
-          document.getElementById('row-bituach').style.display  = 'none';
-          document.getElementById('row-health').style.display   = 'none';
-          document.getElementById('row-net-full').style.display = 'none';
-          document.getElementById('hero-card').querySelector('.label').textContent = 'ðŸ’° ×©×›×¨ × ×˜×• ×œ×§×‘×œ×” (×ž×¡ ×”×›× ×¡×” ×‘×œ×‘×“)';
-          document.getElementById('hero-sub').textContent = `×ž×¡ ×”×›× ×¡×”: ${formatMoney(taxAfterCredit)} | ××—×•×– ×ž×¡ ××¤×§×˜×™×‘×™: ${effectiveRate}%`;
+          document.getElementById('hero-card').querySelector('.label').textContent = '\uD83D\uDCB0 \u05E9\u05DB\u05E8 \u05E0\u05D8\u05D5 \u05DC\u05E7\u05D1\u05DC\u05D4 (\u05DE\u05E1 \u05D4\u05DB\u05E0\u05E1\u05D4 \u05D1\u05DC\u05D1\u05D3)';
+          document.getElementById('hero-sub').textContent = '\u05DE\u05E1 \u05D4\u05DB\u05E0\u05E1\u05D4: ' + formatMoney(taxAfterCredit) + ' | \u05D0\u05D7\u05D5\u05D6 \u05DE\u05E1 \u05D0\u05E4\u05E7\u05D8\u05D9\u05D1\u05D9: ' + effectiveRate + '%';
         }
       } else {
-        document.getElementById('hero-card').querySelector('.label').textContent = 'ðŸ’° ×©×›×¨ × ×˜×• ×œ×§×‘×œ×” (×ž×¡ ×”×›× ×¡×” ×‘×œ×‘×“)';
-        document.getElementById('hero-sub').textContent = `×ž×¡ ×”×›× ×¡×”: ${formatMoney(taxAfterCredit)} | ××—×•×– ×ž×¡ ××¤×§×˜×™×‘×™: ${effectiveRate}%`;
+        document.getElementById('hero-card').querySelector('.label').textContent = '\uD83D\uDCB0 \u05E9\u05DB\u05E8 \u05E0\u05D8\u05D5 \u05DC\u05E7\u05D1\u05DC\u05D4 (\u05DE\u05E1 \u05D4\u05DB\u05E0\u05E1\u05D4 \u05D1\u05DC\u05D1\u05D3)';
+        document.getElementById('hero-sub').textContent = '\u05DE\u05E1 \u05D4\u05DB\u05E0\u05E1\u05D4: ' + formatMoney(taxAfterCredit) + ' | \u05D0\u05D7\u05D5\u05D6 \u05DE\u05E1 \u05D0\u05E4\u05E7\u05D8\u05D9\u05D1\u05D9: ' + effectiveRate + '%';
       }
 
-      // ×©×ž×•×¨ × ×ª×•× ×™× ×œ×¦×•×¨×š ×™×™×¦×•×
       window._lastCalc = { salary, taxAfterCredit, netAfterIncomeTax, bituach, health,
-        pensionCredit, kerenDeductible, donationCredit, creditValue, creditPoints,
-        includeBituach, effectiveRate };
+        pensionCredit, kerenDeductible, donationCredit, creditValue, creditPoints, includeBituach, effectiveRate };
 
-      // ×”×¢×¨×ª ×©×•×œ×™×™×
-      let noteText = `* ×—×™×©×•×‘ ×–×” ×ž×‘×•×¡×¡ ×¢×œ ${creditPoints} × ×§×•×“×•×ª ×–×™×›×•×™.<br />`;
-      noteText += '* ×ž×“×¨×’×ª 50% ×—×œ×” ×¢×œ ×”×›× ×¡×” ×ž×¢×œ 60,130 â‚ª ×œ×—×•×“×© (×›×•×œ×œ 3% ×ž×¡ × ×•×¡×£).<br />';
-      if (!includeBituach) noteText += '* ×œ× ×›×•×œ×œ ×‘×™×˜×•×— ×œ××•×ž×™ ×•×ž×¡ ×‘×¨×™××•×ª.<br />';
-      noteText += '* ×œ×™×™×¢×•×¥ ×ž×“×•×™×§ ×¤× ×” ×œ×¨×•××” ×—×©×‘×•×Ÿ.';
+      let noteText = '* \u05D7\u05D9\u05E9\u05D5\u05D1 \u05D6\u05D4 \u05DE\u05D1\u05D5\u05E1\u05E1 \u05E2\u05DC ' + creditPoints + ' \u05E0\u05E7\u05D5\u05D3\u05D5\u05EA \u05D6\u05D9\u05DB\u05D5\u05D9.<br />';
+      noteText += '* \u05DE\u05D3\u05E8\u05D2\u05EA 50% \u05D7\u05DC\u05D4 \u05E2\u05DC \u05D4\u05DB\u05E0\u05E1\u05D4 \u05DE\u05E2\u05DC 60,130 \u20AA \u05DC\u05D7\u05D5\u05D3\u05E9 (\u05DB\u05D5\u05DC\u05DC 3% \u05DE\u05E1 \u05E0\u05D5\u05E1\u05E3).<br />';
+      if (!includeBituach) noteText += '* \u05DC\u05D0 \u05DB\u05D5\u05DC\u05DC \u05D1\u05D9\u05D8\u05D5\u05D7 \u05DC\u05D0\u05D5\u05DE\u05D9 \u05D5\u05DE\u05E1 \u05D1\u05E8\u05D9\u05D0\u05D5\u05EA.<br />';
+      noteText += '* \u05DC\u05D9\u05D9\u05E2\u05D5\u05E5 \u05DE\u05D3\u05D5\u05D9\u05E7 \u05E4\u05E0\u05D4 \u05DC\u05E8\u05D5\u05D0\u05D4 \u05D7\u05E9\u05D1\u05D5\u05DF.';
       document.getElementById('res-note').innerHTML = noteText;
 
       document.getElementById('results').classList.add('visible');
@@ -884,37 +826,33 @@
       const c = window._lastCalc;
       if (!c) return;
       const rows = [
-        ['×©×“×”', '×¢×¨×š (â‚ª)'],
-        ['×ž×©×›×•×¨×ª ×‘×¨×•×˜×•', c.salary],
-        ['× ×§×•×“×•×ª ×–×™×›×•×™ (×¢×¨×š)', Math.round(c.creditValue)],
-        ['×ž×¡ ×”×›× ×¡×” ×’×•×œ×ž×™', Math.round(c.salary - c.netAfterIncomeTax + c.taxAfterCredit - c.taxAfterCredit + (c.salary - c.netAfterIncomeTax))],
-        ['×–×™×›×•×™ ×¤× ×¡×™×”', Math.round(c.pensionCredit)],
-        ['×”×¤×—×ª×ª ×§×¨×Ÿ ×”×©×ª×œ×ž×•×ª', Math.round(c.kerenDeductible)],
-        ['×–×™×›×•×™ ×ª×¨×•×ž×•×ª', Math.round(c.donationCredit)],
-        ['×ž×¡ ×”×›× ×¡×” ×œ×ª×©×œ×•×', Math.round(c.taxAfterCredit)],
-        ['××—×•×– ×ž×¡ ××¤×§×˜×™×‘×™', c.effectiveRate + '%'],
-        ['× ×˜×• (××—×¨×™ ×ž×¡ ×”×›× ×¡×”)', Math.round(c.netAfterIncomeTax)],
+        ['\u05E9\u05D3\u05D4', '\u05E2\u05E8\u05DA (\u20AA)'],
+        ['\u05DE\u05E9\u05DB\u05D5\u05E8\u05EA \u05D1\u05E8\u05D5\u05D8\u05D5', c.salary],
+        ['\u05E0\u05E7\u05D5\u05D3\u05D5\u05EA \u05D6\u05D9\u05DB\u05D5\u05D9 (\u05E2\u05E8\u05DA)', Math.round(c.creditValue)],
+        ['\u05D6\u05D9\u05DB\u05D5\u05D9 \u05E4\u05E0\u05E1\u05D9\u05D4', Math.round(c.pensionCredit)],
+        ['\u05D4\u05E4\u05D7\u05EA\u05EA \u05E7\u05E8\u05DF \u05D4\u05E9\u05EA\u05DC\u05DE\u05D5\u05EA', Math.round(c.kerenDeductible)],
+        ['\u05D6\u05D9\u05DB\u05D5\u05D9 \u05EA\u05E8\u05D5\u05DE\u05D5\u05EA', Math.round(c.donationCredit)],
+        ['\u05DE\u05E1 \u05D4\u05DB\u05E0\u05E1\u05D4 \u05DC\u05EA\u05E9\u05DC\u05D5\u05DD', Math.round(c.taxAfterCredit)],
+        ['\u05D0\u05D7\u05D5\u05D6 \u05DE\u05E1 \u05D0\u05E4\u05E7\u05D8\u05D9\u05D1\u05D9', c.effectiveRate + '%'],
+        ['\u05E0\u05D8\u05D5 (\u05D0\u05D7\u05E8\u05D9 \u05DE\u05E1 \u05D4\u05DB\u05E0\u05E1\u05D4)', Math.round(c.netAfterIncomeTax)],
       ];
       if (c.includeBituach) {
-        rows.push(['×‘×™×˜×•×— ×œ××•×ž×™', Math.round(c.bituach)]);
-        rows.push(['×ž×¡ ×‘×¨×™××•×ª', Math.round(c.health)]);
-        rows.push(['× ×˜×• ×¡×•×¤×™', Math.round(c.netAfterIncomeTax - c.bituach - c.health)]);
+        rows.push(['\u05D1\u05D9\u05D8\u05D5\u05D7 \u05DC\u05D0\u05D5\u05DE\u05D9', Math.round(c.bituach)]);
+        rows.push(['\u05DE\u05E1 \u05D1\u05E8\u05D9\u05D0\u05D5\u05EA', Math.round(c.health)]);
+        rows.push(['\u05E0\u05D8\u05D5 \u05E1\u05D5\u05E4\u05D9', Math.round(c.netAfterIncomeTax - c.bituach - c.health)]);
       }
-      rows.push(['', '']);
-      rows.push(['× ×ª×•× ×™× ×œ×¤×™', '×ž×“×¨×’×•×ª ×ž×¡ ×™×©×¨××œ 2026']);
+      rows.push(['', ''], ['\u05E0\u05EA\u05D5\u05E0\u05D9\u05DD \u05DC\u05E4\u05D9', '\u05DE\u05D3\u05E8\u05D2\u05D5\u05EA \u05DE\u05E1 \u05D9\u05E9\u05E8\u05D0\u05DC 2026']);
 
-      const bom = '\uFEFF';
-      const csv = bom + rows.map(r => r.map(v => `"${v}"`).join(',')).join('\r\n');
+      const csv  = '\uFEFF' + rows.map(r => r.map(v => '"' + v + '"').join(',')).join('\r\n');
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const url  = URL.createObjectURL(blob);
       const a    = document.createElement('a');
       a.href     = url;
-      a.download = '×—×™×©×•×‘_×ž×¡_×”×›× ×¡×”.csv';
+      a.download = '\u05D7\u05D9\u05E9\u05D5\u05D1_\u05DE\u05E1_\u05D4\u05DB\u05E0\u05E1\u05D4.csv';
       a.click();
       URL.revokeObjectURL(url);
     }
 
-    // ×—×™×©×•×‘ ×‘×œ×—×™×¦×ª Enter
     document.getElementById('salary').addEventListener('keydown', function(e) {
       if (e.key === 'Enter') calculate();
     });
